@@ -133,5 +133,71 @@ Move-ADObject -Identity "CN=Kelly Rhameur,CN=Users,DC=ranka,DC=fr" -TargetPath "
 
 ### Q.1.2.3 Mettre en place une stratégie de mot de passe pour durcir les comptes des utilisateurs de l'OU LabUsers.
 
+#### Ouvrir la console "Gestion des stratégies de groupe" (Group Policy Management - GPMC) :
+
+- Sur le contrôleur de domaine, ouvrez **Exécuter** (Windows + R), tapez `gpmc.msc` et appuyez sur **Entrée**.
+
+#### Créer une nouvelle GPO :
+
+1. Dans la console **GPMC**, accédez à :
+   - **Forêts** > **Domaine** > `[ranka.fr]` > **Group Policy Objects**.
+2. Faites un **clic droit** sur **Group Policy Objects** et sélectionnez **Nouvelle**.
+3. Donnez un nom explicite à la GPO, par exemple :  
+   **"Durcissement mot de passe - LabUsers"**.
+
+#### Modifier la GPO :
+
+- Faites un **clic droit** sur la GPO créée et cliquez sur **Modifier**.
+
+
+#### Configuration des règles de mot de passe Dans l'éditeur de stratégie de groupe :
+
+- Accédez à :  
+   **Configuration de l'ordinateur** > **Stratégies** > **Paramètres Windows** > **Paramètres de sécurité** > **Stratégies de compte** > **Stratégie de mot de passe**.
+
+#### Configurer les paramètres suivants :
+
+| Paramètre | Valeur recommandée |
+|-----------|--------------------|
+| Exiger la complexité du mot de passe | **Activé** |
+| Longueur minimale du mot de passe | **12 caractères** |
+| Durée de vie maximale du mot de passe | **30 jours** |
+| Durée de vie minimale du mot de passe | **1 jour** |
+| Historique des mots de passe | **10 anciens mots de passe** |
+| Stockage des mots de passe réversibles | **Désactivé** |
+| Seuil de verrouillage du compte | **5 tentatives échouées** |
+| Durée du verrouillage du compte | **15 minutes** |
+| Réinitialisation du compteur de verrouillage | **15 minutes** |
+
+![password](https://github.com/KAOUTARBAH/Checkpoint3/blob/main/Images/password.png)
+
 ## Partie 3 : Lecteurs réseaux
 ### Q.1.3.1 Créer une GPO Drive-Mount qui monte les lecteurs E: et F: sur les clients.
+- Créez une **GPO (Group Policy Object)** nommée **Drive-Mount** pour monter les lecteurs **E:** et **F:** sur les postes clients via la stratégie de groupe.
+
+- Créer une Nouvelle GPO  et Nommez-la "Drive-Mount" et cliquez sur OK.
+
+- Configurer le Mappage des Lecteurs Réseaux
+    - Faites un clic droit sur "Drive-Mount" et sélectionnez Modifier.
+    - Accédez à : Configuration utilisateur > Préférences > Paramètres Windows > Mappage de lecteurs.
+    - Faites un clic droit dans la fenêtre de droite et sélectionnez Nouveau > Lecteur mappé.
+
+- Ajouter le Lecteur E:
+    - Action : Créer
+    - Emplacement : \\WINSERV1\PartageE (remplacez avec le chemin du partage réseau)
+    - Attribuer la lettre : E:
+    - Reconnecter : Cochez cette option
+    - Exécuter dans le contexte de sécurité de l’utilisateur : Cochez cette option
+    - Cliquez sur OK.
+
+- Ajouter le Lecteur F:
+    - épétez la même procédure en choisissant la lettre F: et en mettant le bon chemin de partage.
+
+- Appliquer la GPO aux Utilisateurs :
+    - ermez l'éditeur de gestion des stratégies de groupe.
+    - Assurez-vous que la GPO est bien liée à l’OU contenant les utilisateurs ou les groupes qui doivent recevoir ces lecteurs.
+
+- Forcer la Mise à Jour et Vérifier
+    ```bash
+    gpupdate /force
+    ```
