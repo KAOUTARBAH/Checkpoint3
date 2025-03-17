@@ -235,7 +235,7 @@ sudo apt-get install lvm2
 
 sudo pvcreate /dev/sdg  # Créez un PV sur le disque /dev/sdg
 ```
-![vp](https://github.com/KAOUTARBAH/Checkpoint3/blob/main/Images/vp.png)
+![pv](https://github.com/KAOUTARBAH/Checkpoint3/blob/main/Images/pv.png)
 
 ### 3. Créer un Groupe de Volumes (VG)
 
