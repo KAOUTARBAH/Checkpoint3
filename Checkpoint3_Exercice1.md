@@ -14,7 +14,7 @@ Elle est remplacée par Lionel Lemarchand
     - Utilisateurs >  Nouveau > Utilisateur.
     - Allez dans l'onglet Membre de, puis cliquez sur Ajouter pour ajouter Kelly Rhameur à des groupes comme Utilisateurs.
 
-# Récupérer les attributs de Kelly Rhameur en utilisant le SamAccountName exact
+#### Récupérer les attributs de Kelly Rhameur en utilisant le SamAccountName exact
 - code en powershel attributs.sh
 ```powershell
 $kelly = Get-ADUser -Identity "Kelly.Rhameur" -Properties *
@@ -47,6 +47,20 @@ if ($kelly) {
 
 
 ### Q.1.1.2 Créer une OU DeactivatedUsers et déplace le compte désactivé de Kelly Rhameur dedans.
+
+- Désactive le compte de Kelly Rhameur.
+- Créez une nouvelle **OU** (Organizational Unit) nommée **DeactivatedUsers**.
+
+    1. Dans le volet gauche, **cliquez droit** sur le domaine.
+    2. Sélectionnez **Nouveau > Unité organisationnelle**.
+    3. Dans la fenêtre **Nouvel objet – Unité organisationnelle**, entrez **DeactivatedUsers** comme nom de l'OU.
+    4. Cliquez sur **OK** pour créer l'OU.
+
+    ```powershell
+    New-ADOrganizationalUnit -Name "DeactivatedUsers" -Path "OU=ranka,DC=ranka,DC=fr"
+    ```
+![oudesactive](https://github.com/KAOUTARBAH/Checkpoint3/blob/main/Images/oudesactive.png)
+
 
 ### Q.1.1.3 Modifier le groupe de l'OU dans laquelle était Kelly Rhameur en conséquence.
 
